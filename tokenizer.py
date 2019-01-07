@@ -64,11 +64,19 @@ class Tokenizer:
         return words_list
         
     def tokenize(self):
+        self.code_table = {
+            'tokens':[]
+            , 'indexes':{}
+        }
         self.tokens = []
         words_list = self.analyse()
-        for word in words_list:
-            self.tokens.append(word['text'])
-        return self.tokens
+        for i in range(0, len(words_list)):
+            word_info = words_list[i]
+            word = word_info['text']
+            self.code_table['indexes'][word] = i
+            self.code_table['tokens'].append(word)
+
+        return self.code_table
         
     def encode(self, text):
         print('encode')
@@ -96,7 +104,7 @@ if __name__ == '__main__':
         ignored_words = re.split('\W', ignored_words_content)
         ignored_words_file.close()
         
-    tokenizer = Tokenizer()    
+    tokenizer = Tokenizer()
     
     
     file = open(file_name, 'r')
@@ -116,6 +124,6 @@ if __name__ == '__main__':
     '''
     for word in words:
         print(word)
-    '''        
-    for i in range(0, len(tokens)):
-        print(tokens[i] + ' => ' + str(i))
+    '''   
+
+    print(tokens)
